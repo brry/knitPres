@@ -1,0 +1,28 @@
+\documentclass[handout]{beamer}
+
+\begin{document}
+
+<<setup, include=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.height=3, fig.width=6, cache=FALSE)
+@
+
+% ------------------------
+
+\begin{frame}[fragile]{Some Slide}
+Some Text, \pause Then pause, then \pause
+<<imagechunk>>=
+plot(cumsum(rnorm(500)), type="l")
+@
+\end{frame}
+
+% ------------------------
+
+\begin{frame}{Some other Slide}
+Some more stuff
+\end{frame}
+
+% ------------------------
+
+
+\end{document}
