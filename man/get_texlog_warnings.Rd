@@ -10,15 +10,15 @@ get_texlog_warnings(texlogfile, unique = TRUE, nlines_error = 4,
 \arguments{
 \item{texlogfile}{Char: file name}
 
-\item{unique}{Logical. Should ...TODO... DEFAULT: TRUE}
+\item{unique}{Logical. Should duplicate messages be removed? DEFAULT: TRUE}
 
-\item{nlines_error}{Integer: number of lines for an error. DEFAULT:4}
+\item{nlines_error}{Integer: number of lines for an error. DEFAULT: 4}
 
-\item{nlines_box}{Integer: number of lines for over/underfull box messages. DEFAULT:7}
+\item{nlines_box}{Integer: number of lines for over/underfull box messages. DEFAULT: 7}
 
-\item{nlines_warning}{Integer: number of lines for other messages. DEFAULT:3 (may not always be enough)}
+\item{nlines_warning}{Integer: number of lines for other messages. DEFAULT: 3 (may not always be enough)}
 
-\item{\dots}{Further arguments passed to \code{\link{plot}}}
+\item{\dots}{Further arguments passed to \code{\link{readLines}}}
 }
 \value{
 Vector of character strings, one per warning

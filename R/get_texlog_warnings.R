@@ -25,11 +25,11 @@
 #' testlog("superseterror", nlines_warning=5)
 #'
 #' @param texlogfile     Char: file name
-#' @param unique         Logical. Should ...TODO... DEFAULT: TRUE
-#' @param nlines_error   Integer: number of lines for an error. DEFAULT:4
-#' @param nlines_box     Integer: number of lines for over/underfull box messages. DEFAULT:7
-#' @param nlines_warning Integer: number of lines for other messages. DEFAULT:3 (may not always be enough)
-#' @param \dots          Further arguments passed to \code{\link{plot}}
+#' @param unique         Logical. Should duplicate messages be removed? DEFAULT: TRUE
+#' @param nlines_error   Integer: number of lines for an error. DEFAULT: 4
+#' @param nlines_box     Integer: number of lines for over/underfull box messages. DEFAULT: 7
+#' @param nlines_warning Integer: number of lines for other messages. DEFAULT: 3 (may not always be enough)
+#' @param \dots          Further arguments passed to \code{\link{readLines}}
 #'
 get_texlog_warnings <- function(
   texlogfile,
@@ -40,7 +40,7 @@ get_texlog_warnings <- function(
   ...
 )
 {
-texlog <- readLines(texlogfile)
+texlog <- readLines(texlogfile, ...)
 #
 # https://tex.stackexchange.com/questions/32213
 # https://tex.stackexchange.com/a/10564
