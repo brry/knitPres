@@ -4,12 +4,15 @@
 \alias{knit_single_pres}
 \title{knit an Rnw presentation, log progress + warnings}
 \usage{
-knit_single_pres(file)
+knit_single_pres(file, endmessage = TRUE, ...)
 }
 \arguments{
 \item{file}{Filename}
 
-\item{\dots}{Further arguments passed to \code{\link{plot}}}
+\item{endmessage}{Logical: message the last 5 lines of the .knitlog file
+to the console? DEFAULT: TRUE}
+
+\item{\dots}{Further arguments passed to \code{knitr::\link{knit2pdf}}}
 }
 \value{
 log messages as a single character string, invisible

@@ -22,10 +22,12 @@
 #' unlink("TempKnitFolder", recursive=TRUE)
 #' }
 #'
-#' @param file  Filename
-#' @param \dots Further arguments passed to \code{\link{plot}}
+#' @param file       Filename
+#' @param endmessage Logical: message the last 5 lines of the .knitlog file
+#'                   to the console? DEFAULT: TRUE
+#' @param \dots      Further arguments passed to \code{knitr::\link{knit2pdf}}
 #'
-knit_single_pres <- function(file)
+knit_single_pres <- function(file, endmessage=TRUE, ...)
 {
 berryFunctions::checkFile(file)
 # sink messages etc into .knitlog file
@@ -33,13 +35,16 @@ knitlogfile <- sub(".Rnw", ".knitlog", file)
 con <- file(knitlogfile)
 sink(con, append=FALSE)
 sink(con, append=TRUE, type="message")
-# Restore output to console
-on.exit(  {sink()  ;  sink(type="message")  ;
-  message(paste(tail(readLines(knitlogfile), 5), collapse="\n"))}  )
+# Restore output to console after completing/aborting function:
+on.exit({
+  sink()
+  sink(type="message")
+  if(endmessage) message(paste(tail(readLines(knitlogfile), 5), collapse="\n"))
+  })
 # Time info
 starttime <- Sys.time()
 message("Starting knitr::knit2pdf ", as.character(starttime))
-knitr::knit2pdf(file) # clean=grepl("pres", file)
+knitr::knit2pdf(file, ...) # clean=grepl("pres", file)
 comptime <- Sys.time()-starttime
 message("Finished knitr::knit2pdf ", as.character(Sys.time()), ", after ",
         format(unclass(comptime), digits=2), " ", attr(comptime, "units") )
