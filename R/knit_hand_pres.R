@@ -23,8 +23,7 @@
 #' file.copy(rnwfile, "minimalpres.Rnw")
 #'
 #' # Actual knitting ----
-#' messages <- knit_hand_pres(file="minimalpres.Rnw")
-#' str(messages)
+#' knit_hand_pres(file="minimalpres.Rnw")
 #' berryFunctions::openFile("minimalpres.pdf")
 #' berryFunctions::openFile("minimalpres_pres.pdf")
 #'
@@ -70,19 +69,19 @@ con <- file(knitlogfile)
 sink(con, append=FALSE)
 sink(con, append=TRUE, type="message")
 # Restore output to console after completing/aborting function:
+message("Running knitr::knit on '",file,"', starting ", as.character(starttime))
 knitfile <- try(knitr::knit(rnwfile))
+midtime <- Sys.time()
+knittime <- midtime-starttime
+knitmes <- paste0("Finished knitr::knit ",as.character(midtime),", after ",messtime(knittime))
+message("-------\n", knitmes)
 sink()
 sink(type="message")
 # check texfile name:
 if(knitfile != texfile) warning("knitr::knit output ('",knitfile,
                                 "') != texfile ('",texfile,"')")
-
-# intermediate message:
-midtime <- Sys.time()
-knittime <- midtime-starttime
-message("Finished knitr::knit ", as.character(midtime), ", after ",
-        messtime(knittime) )
-
+# intermediate messages:
+message(knitmes)
 message("Now running tools::texi2pdf on '",texfile,"' and '",presfile,"' in parallel.")
 
 # read lines, remove handout option, save pres file:
@@ -92,7 +91,8 @@ writeLines(pres, presfile)
 
 # compile docs in two child R instances / in parallel
 cl <- makeCluster(2)
-parLapply(X=c(texfile, presfile), cl=cl, fun=function(x)try(tools::texi2pdf(x, ...)))
+parLapply(X=c(texfile, presfile), cl=cl, fun=function(x)
+         berryFunctions::tryStack(tools::texi2pdf(x, ...), file=knitlogfile))
 stopCluster(cl)
 
 # remove intermediate files of presentation version:
@@ -102,11 +102,13 @@ unlink(f2r)
 
 # Timing information:
 textime <- Sys.time()-midtime
-message("Finished tools::texi2pdf ", as.character(Sys.time()), ", after ",
-        messtime(textime) )
-
 comptime <- Sys.time()-starttime
+texmes <- paste0("Finished tools::texi2pdf ", as.character(Sys.time()),
+                 ", after ", messtime(textime))
+message(texmes)
 message("Total time ", messtime(comptime), "\n" )
+cat(texmes, file=knitlogfile, append=TRUE)
+cat("\nTotal time ", messtime(comptime), "\n-------\n", file=knitlogfile, append=TRUE)
 
 # Try to get some relevant information from latex log file:
 logwarnings <- get_texlog_warnings(texlogfile)
