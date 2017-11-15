@@ -3,7 +3,6 @@
 export(get_from_log)
 export(get_texlog_warnings)
 export(knit_hand_pres)
-export(knit_single_pres)
 importFrom(berryFunctions,checkFile)
 importFrom(knitr,knit2pdf)
 importFrom(parallel,makeCluster)

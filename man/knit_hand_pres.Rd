@@ -11,30 +11,39 @@ knit_hand_pres(file, presname = "_pres", ...)
 
 \item{presname}{Char: inset that will get appended to file name. DEFAULT: "_pres"}
 
-\item{\dots}{Further arguments passed to \code{\link{knit_single_pres}}}
+\item{\dots}{Further arguments passed to \code{tools::\link{texi2pdf}}}
 }
 \value{
-ReturnValue
+log entries obtained with \code{\link{get_texlog_warnings}}
 }
 \description{
-knit handout and presentation version of .Rnw file in parallel
+knit handout and presentation version of .Rnw file,
+             compile tex file in parallel,
+             write progress + tex warnings into a separate .knitlog file
 }
 \examples{
 \dontrun{## Exclude time consuming test from regular testing
+
+# Copy rnw file to temporary folder ---
 rnwfile <- system.file("extdata/minimalpres.Rnw", package="knitPres")
 dir.create("TempKnitFolder")
 owd <- setwd("TempKnitFolder") ; getwd()
 file.copy(rnwfile, "minimalpres.Rnw")
+
+# Actual knitting ----
 messages <- knit_hand_pres(file="minimalpres.Rnw")
-messages
-#    berryFunctions::openFile("minimalpres_pres.pdf")
+str(messages)
+berryFunctions::openFile("minimalpres.pdf")
+berryFunctions::openFile("minimalpres_pres.pdf")
+
+# clean up ----
 setwd(owd) ; getwd()
 unlink("TempKnitFolder", recursive=TRUE)
 }
 
 }
 \seealso{
-\code{\link{knit_single_pres}}, \code{\link{get_texlog_warnings}}
+\code{\link{get_texlog_warnings}} for extracting messages from the TeX .log file
 }
 \author{
 Berry Boessenkool, \email{berry-b@gmx.de}, Nov 2017
