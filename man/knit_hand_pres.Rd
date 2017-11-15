@@ -4,12 +4,15 @@
 \alias{knit_hand_pres}
 \title{knit handout and presentation version of .Rnw file}
 \usage{
-knit_hand_pres(file, presname = "_pres", ...)
+knit_hand_pres(file, presname = "_pres", open = TRUE, ...)
 }
 \arguments{
 \item{file}{Char: .Rnw file name to be knitted}
 
 \item{presname}{Char: inset that will get appended to file name. DEFAULT: "_pres"}
+
+\item{open}{Logical: Open the resulting pdfs with
+\code{berryFunctions::\link{openFile}}? DEFAULT: TRUE}
 
 \item{\dots}{Further arguments passed to \code{tools::\link{texi2pdf}}}
 }
@@ -24,17 +27,14 @@ knit handout and presentation version of .Rnw file,
 \examples{
 \dontrun{## Exclude time consuming test from regular testing
 
-# Copy rnw file to temporary folder ---
+# Copy Rnw file to temporary folder ---
 rnwfile <- system.file("extdata/minimalpres.Rnw", package="knitPres")
 dir.create("TempKnitFolder")
 owd <- setwd("TempKnitFolder") ; getwd()
 file.copy(rnwfile, "minimalpres.Rnw")
 
 # Actual knitting ----
-messages <- knit_hand_pres(file="minimalpres.Rnw")
-str(messages)
-berryFunctions::openFile("minimalpres.pdf")
-berryFunctions::openFile("minimalpres_pres.pdf")
+knit_hand_pres(file="minimalpres.Rnw")
 
 # clean up ----
 setwd(owd) ; getwd()

@@ -7,7 +7,7 @@
 #' @seealso \code{\link{get_texlog_warnings}} for extracting messages from the TeX .log file
 #' @keywords file
 #' @importFrom parallel makeCluster parLapply stopCluster
-#' @importFrom berryFunctions checkFile
+#' @importFrom berryFunctions checkFile openFile
 #' @importFrom tools file_ext file_path_sans_ext
 #' @importFrom knitr knit2pdf
 #' @importFrom utils tail
@@ -16,7 +16,7 @@
 #' @examples
 #' \dontrun{## Exclude time consuming test from regular testing
 #'
-#' # Copy rnw file to temporary folder ---
+#' # Copy Rnw file to temporary folder ---
 #' rnwfile <- system.file("extdata/minimalpres.Rnw", package="knitPres")
 #' dir.create("TempKnitFolder")
 #' owd <- setwd("TempKnitFolder") ; getwd()
@@ -24,8 +24,6 @@
 #'
 #' # Actual knitting ----
 #' knit_hand_pres(file="minimalpres.Rnw")
-#' berryFunctions::openFile("minimalpres.pdf")
-#' berryFunctions::openFile("minimalpres_pres.pdf")
 #'
 #' # clean up ----
 #' setwd(owd) ; getwd()
@@ -34,9 +32,15 @@
 #'
 #' @param file     Char: .Rnw file name to be knitted
 #' @param presname Char: inset that will get appended to file name. DEFAULT: "_pres"
+#' @param open     Logical: Open the resulting pdfs with
+#'                \code{berryFunctions::\link{openFile}}? DEFAULT: TRUE
 #' @param \dots    Further arguments passed to \code{tools::\link{texi2pdf}}
 #'
-knit_hand_pres <- function(file, presname="_pres", ...)
+knit_hand_pres <- function(
+  file,
+  presname="_pres",
+  open=TRUE,
+  ...)
 {
 # check filename:
 if(length(file)>1) stop("Length of file must be 1, not ", length(file))
@@ -58,6 +62,8 @@ knitlogfile <- sub(".Rnw", ".knitlog", rnwfile)
     texfile <- sub(".Rnw", ".tex",     rnwfile)
  texlogfile <- sub(".Rnw", ".log",     rnwfile)
    presfile <- paste0(tools::file_path_sans_ext(texfile), presname, ".tex")
+    pdfhand <- sub(".tex", ".pdf",     texfile)
+    pdfpres <- sub(".tex", ".pdf",     presfile)
 
 # Timing information:
 starttime <- Sys.time()
@@ -118,7 +124,11 @@ cat(logwarning, file=knitlogfile, append=TRUE)
 message(logwarning)
 
 # Open file(s) ### To debate
-### berryFunctions:openFile
+if(open)
+  {
+  berryFunctions::openFile(pdfhand)
+  berryFunctions::openFile(pdfpres)
+  }
 
 # output:
 return(invisible(logwarning))
