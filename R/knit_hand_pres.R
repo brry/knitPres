@@ -34,12 +34,14 @@
 #' @param presname Char: inset that will get appended to file name. DEFAULT: "_pres"
 #' @param open     Logical: Open the resulting pdfs with
 #'                \code{berryFunctions::\link{openFile}}? DEFAULT: TRUE
+#' @param cleanup  Logical: remove intermediate tex files? DEFAULT: TRUE
 #' @param \dots    Further arguments passed to \code{tools::\link{texi2pdf}}
 #'
 knit_hand_pres <- function(
   file,
   presname="_pres",
   open=TRUE,
+  cleanup=TRUE,
   ...)
 {
 # check filename:
@@ -101,29 +103,35 @@ parLapply(X=c(texfile, presfile), cl=cl, fun=function(x)
          berryFunctions::tryStack(tools::texi2pdf(x, ...), file=knitlogfile))
 stopCluster(cl)
 
-# remove intermediate files of presentation version:
-f2r <- dir(pattern=tools::file_path_sans_ext(presfile)) # files to remove
-f2r <- f2r[tools::file_ext(f2r) != "pdf"]
-unlink(f2r)
-
-# Timing information:
+# LaTeX Timing information:
 textime <- Sys.time()-midtime
-comptime <- Sys.time()-starttime
 texmes <- paste0("Finished tools::texi2pdf ", as.character(Sys.time()),
                  ", after ", messtime(textime))
 message(texmes)
-message("Total time ", messtime(comptime), "\n" )
-cat(texmes, file=knitlogfile, append=TRUE)
-cat("\nTotal time ", messtime(comptime), "\n-------\n", file=knitlogfile, append=TRUE)
+cat(texmes, "\n-------\n", file=knitlogfile, append=TRUE)
+
+# remove intermediate files of presentation version:
+if(cleanup)
+{
+f2r <- dir(pattern=paste0(tools::file_path_sans_ext(presfile),"\\.")) # files to remove
+m2r <- dir(pattern=paste0(tools::file_path_sans_ext( rnwfile),"\\.")) # more to remove
+f2r <- f2r[ tools::file_ext(f2r) != "pdf"]
+m2r <- m2r[!tools::file_ext(m2r) %in% c("Rnw", "tex","log","knitlog","pdf")]
+unlink(c(f2r,m2r))
+}
 
 # Try to get some relevant information from latex log file:
+message("Now extracting warnings/errors from LaTeX log file...")
 logwarnings <- get_texlog_warnings(texlogfile)
 logwarning <- paste0("Messages in '", texlogfile, "' at '",owd,"':\n---\n",
-                     paste(logwarnings, collapse="\n---\n")    )
+                     paste(logwarnings, collapse="\n---\n"), "\n---")
 cat(logwarning, file=knitlogfile, append=TRUE)
 message(logwarning)
+comptime <- Sys.time()-starttime
+message("Total time ", messtime(comptime))
+cat("\nTotal time ", messtime(comptime), file=knitlogfile, append=TRUE)
 
-# Open file(s) ### To debate
+# Open file(s)
 if(open)
   {
   berryFunctions::openFile(pdfhand)

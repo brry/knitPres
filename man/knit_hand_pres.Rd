@@ -4,7 +4,7 @@
 \alias{knit_hand_pres}
 \title{knit handout and presentation version of .Rnw file}
 \usage{
-knit_hand_pres(file, presname = "_pres", open = TRUE, ...)
+knit_hand_pres(file, presname = "_pres", open = TRUE, cleanup = TRUE, ...)
 }
 \arguments{
 \item{file}{Char: .Rnw file name to be knitted}
@@ -13,6 +13,8 @@ knit_hand_pres(file, presname = "_pres", open = TRUE, ...)
 
 \item{open}{Logical: Open the resulting pdfs with
 \code{berryFunctions::\link{openFile}}? DEFAULT: TRUE}
+
+\item{cleanup}{Logical: remove intermediate tex files? DEFAULT: TRUE}
 
 \item{\dots}{Further arguments passed to \code{tools::\link{texi2pdf}}}
 }
