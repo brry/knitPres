@@ -40,7 +40,7 @@ get_texlog_warnings <- function(
   ...
 )
 {
-texlog <- readLines(texlogfile, ...)
+texlog <- readLines(texlogfile, warn=FALSE, ...)
 #
 # https://tex.stackexchange.com/questions/32213
 # https://tex.stackexchange.com/a/10564
