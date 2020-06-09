@@ -5,8 +5,9 @@ knit both handout and presentation version of .Rnw slides with (relatively) good
 ### install
 
 ```R
-if(!requireNamespace("devtools",quietly=TRUE)) install.packages("devtools")
-devtools::install_github("brry/knitPres")
+if(!requireNamespace("remotes", quitly=TRUE)) install.packages("remotes")
+remotes::install_github("brry/knitPres")
+
 library("knitPres")
 ?knit_hand_pres
 ```
