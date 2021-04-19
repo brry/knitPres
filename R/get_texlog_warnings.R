@@ -62,8 +62,8 @@ if(unique)
                                         ") were duplicate and are removed. Display all with ",
                                         "get_texlog_warnings(..., unique=FALSE)."))
 } # end if unique
-if(is.null(out)) out <- paste0("No errors found in '", texlogfile, "', but to be ",
-                              "sure,\nopen the corresponding tex file in TexMaker and click on 'View log'.")
+if(is.null(out)) out <- NULL # paste0("No errors found in '", texlogfile, "', but to be ",
+                             # "sure,\nopen the corresponding tex file in TexMaker and click on 'View log'.")
 else out <- c(out, paste0("There may be more messages in '", texlogfile, "'.\nTo ",
                          "check, open the corresponding tex file in TexMaker and click on 'View log'."))
 out

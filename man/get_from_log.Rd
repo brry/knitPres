@@ -4,8 +4,13 @@
 \alias{get_from_log}
 \title{get messages for a single search string from TeX log file}
 \usage{
-get_from_log(texlog, pattern = "", line = grep(pattern, texlog, ignore.case
-  = TRUE), nlines = 1, ncharmin = 4)
+get_from_log(
+  texlog,
+  pattern = "",
+  line = grep(pattern, texlog, ignore.case = TRUE),
+  nlines = 1,
+  ncharmin = 4
+)
 }
 \arguments{
 \item{texlog}{Character string vector e.g. from \code{\link{readLines}}}

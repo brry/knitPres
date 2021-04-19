@@ -4,8 +4,14 @@
 \alias{get_texlog_warnings}
 \title{get messages from TeX log file}
 \usage{
-get_texlog_warnings(texlogfile, unique = TRUE, nlines_error = 4,
-  nlines_box = 7, nlines_warning = 3, ...)
+get_texlog_warnings(
+  texlogfile,
+  unique = TRUE,
+  nlines_error = 4,
+  nlines_box = 7,
+  nlines_warning = 3,
+  ...
+)
 }
 \arguments{
 \item{texlogfile}{Char: file name}
@@ -31,7 +37,7 @@ get messages (notes, warnings, errors) from sometexdoc.log file
 testlog <- function(logname, ...)
   {
   logf <- system.file(paste0("extdata/",logname,".log"), package="knitPres")
-  cat("", get_texlog_warnings(logf, ...), sep="\\n---\\n")
+  cat("", get_texlog_warnings(logf, ...), sep="\n---\n")
   }
 
 testlog("no_messages")

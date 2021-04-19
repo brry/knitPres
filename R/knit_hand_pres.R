@@ -121,12 +121,14 @@ unlink(c(f2r,m2r))
 }
 
 # Try to get some relevant information from latex log file:
-message("Now extracting warnings/errors from LaTeX log file...")
+#message("Now extracting warnings/errors from LaTeX log file...")
 logwarnings <- get_texlog_warnings(texlogfile)
+if(!is.null(logwarnings)){
 logwarning <- paste0("Messages in '", texlogfile, "' at '",owd,"':\n---\n",
                      paste(logwarnings, collapse="\n---\n"), "\n---")
 cat(logwarning, file=knitlogfile, append=TRUE)
 message(logwarning)
+} else logwarning <- NULL
 comptime <- Sys.time()-starttime
 message("Total time ", messtime(comptime))
 cat("\nTotal time ", messtime(comptime), file=knitlogfile, append=TRUE)
