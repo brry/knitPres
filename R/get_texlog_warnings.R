@@ -49,6 +49,7 @@ out <- c(
  get_from_log(texlog, "underfull",   nlines=nlines_box),
  get_from_log(texlog, "TeX warning", nlines=nlines_warning),
  get_from_log(texlog, "warning:",    nlines=nlines_warning), # also covers Font Warnings
+ get_from_log(texlog, ".vrb:",       nlines=nlines_warning), # for \rcode{a_b} instead of {a\_b}
  get_from_log(texlog, "TeX error",   nlines=nlines_error),
  get_from_log(texlog, "!",           nlines=nlines_error), # Errors at the end
  NULL
@@ -62,6 +63,8 @@ if(unique)
                                         ") were duplicate and are removed. Display all with ",
                                         "get_texlog_warnings(..., unique=FALSE)."))
 } # end if unique
+if(any(grepl("Missing $ inserted", out, fixed=T)))
+  out <- c(out, "--BB: This may indicate a missing \\ in front of a _ or #.")
 if(is.null(out)) out <- NULL # paste0("No errors found in '", texlogfile, "', but to be ",
                              # "sure,\nopen the corresponding tex file in TexMaker and click on 'View log'.")
 else out <- c(out, paste0("There may be more messages in '", texlogfile, "'.\nTo ",
