@@ -113,11 +113,10 @@ cat(texmes, "\n-------\n", file=knitlogfile, append=TRUE)
 # remove intermediate files of presentation version:
 if(cleanup)
 {
-f2r <- dir(pattern=paste0(tools::file_path_sans_ext(presfile),"\\.")) # files to remove
-m2r <- dir(pattern=paste0(tools::file_path_sans_ext( rnwfile),"\\.")) # more to remove
-f2r <- f2r[ tools::file_ext(f2r) != "pdf"]
-m2r <- m2r[!tools::file_ext(m2r) %in% c("Rnw", "tex","log","knitlog","pdf")]
-unlink(c(f2r,m2r))
+ext2r <- c("-concordance.tex", ".nav", ".snm", ".synctex.gz", ".toc", ".vrb")
+hand2r <- paste0(tools::file_path_sans_ext( rnwfile), ext2r)
+pres2r <- paste0(tools::file_path_sans_ext(presfile), c(ext2r, ".tex", ".log"))
+unlink(c(hand2r,pres2r))
 }
 
 # Try to get some relevant information from latex log file:
