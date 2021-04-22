@@ -113,7 +113,7 @@ cat(texmes, "\n-------\n", file=knitlogfile, append=TRUE)
 # remove intermediate files of presentation version:
 if(cleanup)
 {
-ext2r <- c("-concordance.tex", ".nav", ".snm", ".synctex.gz", ".toc", ".vrb")
+ext2r <- c(".aux", "-concordance.tex", ".nav", ".out", ".snm", ".synctex.gz", ".toc", ".vrb")
 hand2r <- paste0(tools::file_path_sans_ext( rnwfile), ext2r)
 pres2r <- paste0(tools::file_path_sans_ext(presfile), c(ext2r, ".tex", ".log"))
 unlink(c(hand2r,pres2r))
