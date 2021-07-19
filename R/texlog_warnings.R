@@ -72,12 +72,14 @@ texlog <- readLines(file, warn=FALSE, ...)
 # https://tex.stackexchange.com/a/10564
 wrn1 <- get_from_log(texlog, "TeX warning", nlines=nlines_warning)
 wrn2 <- get_from_log(texlog, "warning:",    nlines=nlines_warning) # also covers Font Warnings
+err1 <- get_from_log(texlog, "TeX error",   nlines=nlines_error)
+err2 <- get_from_log(texlog, "error:",      nlines=nlines_error) # also covers xcolor errors
 out <- c(
  get_from_log(texlog, "overfull",    nlines=nlines_box),
  get_from_log(texlog, "underfull",   nlines=nlines_box),
  unique(c(wrn1,wrn2)),
  get_from_log(texlog, ".vrb:",       nlines=nlines_warning), # for \rcode{a_b} instead of {a\_b}
- get_from_log(texlog, "TeX error",   nlines=nlines_error),
+ unique(c(err1,err2)),
  get_from_log(texlog, "!",           nlines=nlines_error), # Errors at the end
  NULL
 )
