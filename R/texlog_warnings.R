@@ -96,7 +96,7 @@ if(any(grepl("Missing $ inserted", out, fixed=TRUE)))
   out <- c(out, "--BB: 'Missing $ inserted' may indicate a missing  \\  in front of  _ or #.")
 #
 # message:
-mes <- paste0("Messages in '", normalizePath(file,"/"), ":\n---\n",
+mes <- paste0("---\nMessages in '", normalizePath(file,"/"), ":\n---\n",
               paste(out, collapse="\n---\n"), "\n---")
 message(mes)
 # output:

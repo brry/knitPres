@@ -40,10 +40,10 @@ if(inherits(texfile, "try-error")) warning(texfile)
 
 # Convert to pdf:
 message("Running tools::texi2pdf on ",texfile," starting ",as.character(Sys.time()),"...")
-pdffile <- try(tools::texi2pdf(texfile, clean=FALSE), silent=TRUE)
+pdffile <- try(suppressWarnings(tools::texi2pdf(texfile, clean=FALSE)), silent=TRUE)
 if(inherits(pdffile, "try-error"))
   open <- FALSE else
-  pdffile <- normalizePath(pdffile, winslash="/")
+  pdffile <- normalizePath(sub("\\.Rnw$",".pdf",file), winslash="/")
 
 # print tex log warnings (if any are found):
 texlog_warnings(file)
