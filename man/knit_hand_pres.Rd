@@ -45,7 +45,7 @@ unlink("TempKnitFolder", recursive=TRUE)
 
 }
 \seealso{
-\code{\link{get_texlog_warnings}} for extracting messages from the TeX .log file
+\code{\link{texlog_warnings}} for extracting messages from the TeX .log file
 }
 \author{
 Berry Boessenkool, \email{berry-b@gmx.de}, Nov 2017

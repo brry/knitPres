@@ -4,7 +4,7 @@
 #'              write progress + tex warnings into a separate .knitlog file
 #' @return log entries obtained with \code{\link{get_texlog_warnings}}
 #' @author Berry Boessenkool, \email{berry-b@@gmx.de}, Nov 2017
-#' @seealso \code{\link{get_texlog_warnings}} for extracting messages from the TeX .log file
+#' @seealso \code{\link{texlog_warnings}} for extracting messages from the TeX .log file
 #' @keywords file
 #' @importFrom parallel makeCluster parLapply stopCluster
 #' @importFrom berryFunctions checkFile openFile
@@ -113,21 +113,14 @@ cat(texmes, "\n-------\n", file=knitlogfile, append=TRUE)
 # remove intermediate files of presentation version:
 if(cleanup)
 {
-ext2r <- c(".aux", "-concordance.tex", ".nav", ".out", ".snm", ".synctex.gz", ".toc", ".vrb")
-hand2r <- paste0(tools::file_path_sans_ext( rnwfile), ext2r)
-pres2r <- paste0(tools::file_path_sans_ext(presfile), c(ext2r, ".tex", ".log"))
-unlink(c(hand2r,pres2r))
+tex_clean( rnwfile)
+tex_clean(presfile, c(".tex", ".log"))
 }
 
-# Try to get some relevant information from latex log file:
-#message("Now extracting warnings/errors from LaTeX log file...")
-logwarnings <- get_texlog_warnings(texlogfile)
-if(!is.null(logwarnings)){
-logwarning <- paste0("Messages in '", texlogfile, "' at '",owd,"':\n---\n",
-                     paste(logwarnings, collapse="\n---\n"), "\n---")
-cat(logwarning, file=knitlogfile, append=TRUE)
-message(logwarning)
-} else logwarning <- NULL
+# Display relevant information from latex log file:
+output <- texlog_warnings(texlogfile)
+cat(output, file=knitlogfile, append=TRUE)
+
 comptime <- Sys.time()-starttime
 message("Total time ", messtime(comptime))
 cat("\nTotal time ", messtime(comptime), file=knitlogfile, append=TRUE)
@@ -140,5 +133,5 @@ if(open)
   }
 
 # output:
-return(invisible(logwarning))
+return(invisible(output))
 }
