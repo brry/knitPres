@@ -35,7 +35,7 @@ on.exit(setwd(owd), add=TRUE)
 
 # Convert to tex:
 message("Running knitr::knit on ",file," starting ",as.character(Sys.time()),"...")
-texfile <- try(knitr::knit(file, ...), silent=TRUE)
+texfile <- try(knitr::knit(file, envir=new.env(), ...), silent=TRUE)
 if(inherits(texfile, "try-error")) warning(texfile)
 
 # Convert to pdf:
