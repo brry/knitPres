@@ -12,12 +12,14 @@
 #'              DEFAULT: TRUE
 #' @param clean Clean up temporary files?
 #'              DEFAULT: TRUE (unlike in  \code{tools::\link[tools]{texi2pdf}})
+#' @param quiet Silence \code{knitr::\link[knitr]{knit}} progress?
 #' @param \dots Further arguments passed to \code{knitr::\link[knitr]{knit}}
 #'
 rnw2pdf <- function(
 file,
 open=TRUE,
 clean=TRUE,
+quiet=TRUE,
 ...
 )
 {
@@ -35,7 +37,7 @@ on.exit(setwd(owd), add=TRUE)
 
 # Convert to tex:
 message("Running knitr::knit on ",file," starting ",as.character(Sys.time()),"...")
-texfile <- try(knitr::knit(file, envir=new.env(), ...), silent=TRUE)
+texfile <- try(knitr::knit(file, envir=new.env(), quiet=quiet, ...), silent=TRUE)
 if(inherits(texfile, "try-error")) warning(texfile)
 
 # Convert to pdf:
