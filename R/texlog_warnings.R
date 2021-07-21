@@ -96,7 +96,9 @@ out <- sapply(unique(out), function(x)
 #
 if(any(grepl("Missing $ inserted", out, fixed=TRUE)))
   out <- c(out, "--BB: 'Missing $ inserted' may indicate a missing  \\  in front of  _ or #.")
-#
+if(any(grepl("\\endframe ->\\egroup", out, fixed=TRUE)))
+  out <- c(out, "--BB: potentially, \\begin{eframe} is closed with \\end{frame} instead of \\end{eframe}.")
+
 # message:
 mes <- paste0("---\nMessages in '", normalizePath(file,"/"), ":\n---\n",
               paste(out, collapse="\n---\n"), "\n---")
