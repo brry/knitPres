@@ -2,7 +2,7 @@
 % Please edit documentation in R/locateTextbox.R
 \name{locateTextbox}
 \alias{locateTextbox}
-\title{determine locations for textbox}
+\title{Determine locations for textbox}
 \usage{
 locateTextbox(
   img = "C:/Users/berry/Desktop/pdfscreenshot.PNG",
@@ -13,15 +13,15 @@ locateTextbox(
 \arguments{
 \item{img}{Image file name, is read with \code{png::\link{readPNG}(img)}}
 
-\item{calibrate}{Show template for calibration? DEFAULT: FALSE}
+\item{calibrate}{Show complete frame template? DEFAULT: FALSE}
 
 \item{\dots}{Further arguments passed to \code{\link{plot}}}
 }
 \value{
-invisible list with coordinates, the printed message contains ready-to-use code
+Invisible list with coordinates, the printed message contains ready-to-use code
 }
 \description{
-extract locations for textbox from pdf screenshot with reference markers
+Extract locations for textbox from pdf screenshot with reference markers
 }
 \author{
 Berry Boessenkool, \email{berry-b@gmx.de}, Jul 2021

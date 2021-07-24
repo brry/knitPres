@@ -1,12 +1,12 @@
-#' @title determine locations for textbox
-#' @description extract locations for textbox from pdf screenshot with reference markers
-#' @return invisible list with coordinates, the printed message contains ready-to-use code
+#' @title Determine locations for textbox
+#' @description Extract locations for textbox from pdf screenshot with reference markers
+#' @return Invisible list with coordinates, the printed message contains ready-to-use code
 #' @author Berry Boessenkool, \email{berry-b@@gmx.de}, Jul 2021
 #' @importFrom png readPNG
 #' @importFrom graphics rasterImage locator rect par
 #' @export
 #' @param img   Image file name, is read with \code{png::\link{readPNG}(img)}
-#' @param calibrate Show template for calibration? DEFAULT: FALSE
+#' @param calibrate Show complete frame template? DEFAULT: FALSE
 #' @param \dots Further arguments passed to \code{\link{plot}}
 #'
 locateTextbox <- function(
@@ -16,21 +16,20 @@ calibrate=FALSE,
 )
 {
 if(calibrate)
-{message("\\begin{frame}[fragile]{Titel}
+message("\\begin{frame}[fragile]{Titel}
 \\begin{overlayarea}{\\textwidth}{0.95\\textheight} % avoid vertical jumps  https://texwelt.de/fragen/83
 \\vspace{1em} \\pause
 
 Slide content here
 
-\\only<2->{
+\\pause
+\\only<+->{
 \\textblockrulecolour{red}
 \\begin{textblock*}{1cm}(0cm,0cm) \\vspace{1em} ~ \\end{textblock*}
 \\begin{textblock*}{1cm}(12.5cm,9cm) \\vspace{1em} ~ \\end{textblock*}
 }
 \\end{overlayarea}
 \\end{frame}")
-return(invisible(NULL))
-}
 
 # plot image
 op <- par(mar=c(0,0,0,0))
@@ -40,9 +39,9 @@ img <- png::readPNG(img)
 rasterImage(img, 0,0, 1,1)
 
 # Calibration
-message("click topleft of first template box (0, 0)")
+message("click topleft of page (0, 0)")
 c1 <- locator(n=1, type="p", pch=3, lwd=3)
-message("click topleft of second template box (12.5, 9)")
+message("click bottom right of page (12.8, 9.6)")
 c2 <- locator(n=1, type="p", pch=3, lwd=3)
 
 # locations
@@ -63,10 +62,10 @@ for(i in seq_len(100))
   }
 
 # scale to range
-tx <- (tx-c1$x)/(c2$x-c1$x)*12.5
-ty <- (ty-c1$y)/(c2$y-c1$y)*9
-bx <- (bx-c1$x)/(c2$x-c1$x)*12.5
-by <- (by-c1$y)/(c2$y-c1$y)*9
+tx <- (tx-c1$x)/(c2$x-c1$x)*12.8
+ty <- (ty-c1$y)/(c2$y-c1$y)*9.6
+bx <- (bx-c1$x)/(c2$x-c1$x)*12.8
+by <- (by-c1$y)/(c2$y-c1$y)*9.6
 
 w <- round(bx-tx, 2)
 h <- round(by-ty, 2)
