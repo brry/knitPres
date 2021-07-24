@@ -2,7 +2,7 @@
 #' @description knit handout and presentation version of .Rnw file,
 #'              compile tex file in parallel,
 #'              write progress + tex warnings into a separate .knitlog file
-#' @return log entries obtained with \code{\link{get_texlog_warnings}}
+#' @return log entries obtained with \code{\link{texlog_warnings}}
 #' @author Berry Boessenkool, \email{berry-b@@gmx.de}, Nov 2017
 #' @seealso \code{\link{texlog_warnings}} for extracting messages from the TeX .log file
 #' @keywords file

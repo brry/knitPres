@@ -19,7 +19,7 @@ knit_hand_pres(file, presname = "_pres", open = TRUE, cleanup = TRUE, ...)
 \item{\dots}{Further arguments passed to \code{tools::\link{texi2pdf}}}
 }
 \value{
-log entries obtained with \code{\link{get_texlog_warnings}}
+log entries obtained with \code{\link{texlog_warnings}}
 }
 \description{
 knit handout and presentation version of .Rnw file,
