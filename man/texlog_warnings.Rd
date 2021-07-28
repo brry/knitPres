@@ -43,6 +43,7 @@ testlog("pgferror")
 testlog("superseterror")
 testlog("superseterror", nlines_box=0) # no over/underful box warnings
 testlog("superseterror", nlines_warning=5)
+testlog("hashtagURL") # not formatted as error!!
 
 }
 \references{

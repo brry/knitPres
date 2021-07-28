@@ -49,6 +49,7 @@ out
 #' testlog("superseterror")
 #' testlog("superseterror", nlines_box=0) # no over/underful box warnings
 #' testlog("superseterror", nlines_warning=5)
+#' testlog("hashtagURL") # not formatted as error!!
 #'
 #' @param file           Char: file name (.Rnw, .tex or .log)
 #' @param nlines_error   Integer: number of lines for an error. DEFAULT: 4
@@ -80,6 +81,7 @@ out <- c(
  unique(c(wrn1,wrn2)),
  get_from_log(texlog, ".vrb:",       nlines=nlines_warning), # for \rcode{a_b} instead of {a\_b}
  unique(c(err1,err2)),
+ get_from_log(texlog, "Illegal",     nlines=nlines_error),
  get_from_log(texlog, "!",           nlines=nlines_error), # Errors at the end
  NULL
 )
@@ -98,6 +100,10 @@ if(any(grepl("Missing $ inserted", out, fixed=TRUE)))
   out <- c(out, "--BB: 'Missing $ inserted' may indicate a missing  \\  in front of  _ or #.")
 if(any(grepl("\\endframe ->\\egroup", out, fixed=TRUE)))
   out <- c(out, "--BB: potentially, \\begin{eframe} is closed with \\end{frame} instead of \\end{eframe}.")
+if(any(grepl("no legal \\end found", out, fixed=TRUE)))
+  out <- c(out, "--BB: potentially, \\begin{eframe} is closed with \\end{frame} instead of \\end{eframe}.")
+if(any(grepl("Illegal parameter number in definition of \\reserved@b", out, fixed=TRUE)))
+  out <- c(out, "--BB: '... par num ... \\reserved@b.' may indicate a # in URL (instead of \\#)")
 
 # message:
 mes <- paste0("---\nMessages in '", normalizePath(file,"/"), ":\n---\n",
