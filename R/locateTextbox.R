@@ -6,31 +6,16 @@
 #' @importFrom graphics rasterImage locator rect par
 #' @export
 #' @param img   Image file name, is read with \code{png::\link{readPNG}(img)}
-#' @param calibrate Show complete frame template? DEFAULT: FALSE
+#'              DEFAULT: "C:/Users/berry/Desktop/pdfscreenshot.PNG"
+#' @param frame Show complete frame template? DEFAULT: TRUE
 #' @param \dots Further arguments passed to \code{\link{plot}}
 #'
 locateTextbox <- function(
 img="C:/Users/berry/Desktop/pdfscreenshot.PNG",
-calibrate=FALSE,
+frame=TRUE,
 ...
 )
 {
-if(calibrate)
-message("\\begin{frame}[fragile]{Titel}
-\\begin{overlayarea}{\\textwidth}{0.95\\textheight} % avoid vertical jumps  https://texwelt.de/fragen/83
-\\vspace{1em} \\pause
-
-Slide content here
-
-\\pause
-\\only<+->{
-\\textblockrulecolour{red}
-\\begin{textblock*}{1cm}(0cm,0cm) \\vspace{1em} ~ \\end{textblock*}
-\\begin{textblock*}{1cm}(12.5cm,9cm) \\vspace{1em} ~ \\end{textblock*}
-}
-\\end{overlayarea}
-\\end{frame}")
-
 # plot image
 op <- par(mar=c(0,0,0,0))
 on.exit(par(op), add=TRUE)
@@ -74,7 +59,21 @@ ty <- round(ty, 2)
 
 # Output
 out <- paste0("\\begin{textblock*}{",w,"cm}(",tx,"cm,",ty,"cm) \\vspace{",h,"cm} ~ \\end{textblock*}")
-message(paste(out, collapse="\n"))
+out <- paste(out, collapse="\n")
+if(frame)
+out <- paste0("\n\\begin{frame}[fragile]{Titel}
+\\begin{overlayarea}{\\textwidth}{0.95\\textheight} % avoid vertical jumps  https://texwelt.de/fragen/83
+\\pause
+Slide_content_here
+\\only<+->{
+\\textblockrulecolour{red}
+%\\begin{textblock*}{1cm}(0cm,0cm) \\vspace{1em} ~ \\end{textblock*}
+%\\begin{textblock*}{1cm}(12.5cm,9cm) \\vspace{1em} ~ \\end{textblock*}
+",out,"
+}
+\\end{overlayarea}
+\\end{frame}")
+message(out)
 # output
 invisible(list(x=tx, y=ty, width=w, height=h))
 }

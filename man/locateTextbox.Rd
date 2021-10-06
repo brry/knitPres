@@ -6,14 +6,15 @@
 \usage{
 locateTextbox(
   img = "C:/Users/berry/Desktop/pdfscreenshot.PNG",
-  calibrate = FALSE,
+  frame = TRUE,
   ...
 )
 }
 \arguments{
-\item{img}{Image file name, is read with \code{png::\link{readPNG}(img)}}
+\item{img}{Image file name, is read with \code{png::\link{readPNG}(img)}
+DEFAULT: "C:/Users/berry/Desktop/pdfscreenshot.PNG"}
 
-\item{calibrate}{Show complete frame template? DEFAULT: FALSE}
+\item{frame}{Show complete frame template? DEFAULT: TRUE}
 
 \item{\dots}{Further arguments passed to \code{\link{plot}}}
 }
