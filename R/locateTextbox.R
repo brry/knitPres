@@ -4,6 +4,7 @@
 #' @author Berry Boessenkool, \email{berry-b@@gmx.de}, Jul 2021
 #' @importFrom png readPNG
 #' @importFrom graphics rasterImage locator rect par
+#' @importFrom berryFunctions round0
 #' @export
 #' @param img   Image file name, is read with \code{png::\link{readPNG}(img)}
 #'              DEFAULT: "C:/Users/berry/Desktop/pdfscreenshot.PNG"
@@ -52,10 +53,10 @@ ty <- (ty-c1$y)/(c2$y-c1$y)*9.6
 bx <- (bx-c1$x)/(c2$x-c1$x)*12.8
 by <- (by-c1$y)/(c2$y-c1$y)*9.6
 
-w <- round(bx-tx, 2)
-h <- round(by-ty, 2)
-tx <- round(tx, 2)
-ty <- round(ty, 2)
+w <-  berryFunctions::round0(bx-tx, 2, pre=1)
+h <-  berryFunctions::round0(by-ty, 2, pre=1)
+tx <- berryFunctions::round0(tx,    2, pre=1)
+ty <- berryFunctions::round0(ty,    2, pre=1)
 
 # Output
 out <- paste0("\\begin{textblock*}{",w,"cm}(",tx,"cm,",ty,"cm) \\vspace{",h,"cm} ~ \\end{textblock*}")
@@ -67,8 +68,6 @@ out <- paste0("\n\\begin{frame}[fragile]{Titel}
 Slide_content_here
 \\only<+->{
 \\textblockrulecolour{red}
-%\\begin{textblock*}{1cm}(0cm,0cm) \\vspace{1em} ~ \\end{textblock*}
-%\\begin{textblock*}{1cm}(12.5cm,9cm) \\vspace{1em} ~ \\end{textblock*}
 ",out,"
 }
 \\end{overlayarea}
