@@ -101,9 +101,11 @@ if(any(grepl("Missing $ inserted", out, fixed=TRUE)))
 if(any(grepl("\\endframe ->\\egroup", out, fixed=TRUE)))
   out <- c(out, "--BB: potentially, \\begin{eframe} is closed with \\end{frame} instead of \\end{eframe}.")
 if(any(grepl("no legal \\end found", out, fixed=TRUE)))
-  out <- c(out, "--BB: potentially, \\begin{eframe} is closed with \\end{frame} instead of \\end{eframe}.")
+  out <- c(out, "--BB: potentially, [fragile] is forgotten, or \\begin{eframe} is closed with \\end{frame} instead of \\end{eframe}.")
 if(any(grepl("Illegal parameter number in definition of \\reserved@b", out, fixed=TRUE)))
   out <- c(out, "--BB: '... par num ... \\reserved@b.' may indicate a # in URL (instead of \\#)")
+if(any(grepl("begin{document} ended by", out, fixed=TRUE)))
+  out <- c(out, "--BB: potentially, [fragile] is forgotten after \\begin{frame}.")
 
 # message:
 mes <- paste0("---\nMessages in '", normalizePath(file,"/"), ":\n---\n",
