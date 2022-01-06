@@ -96,12 +96,14 @@ out <- sapply(unique(out), function(x)
     x
   }, USE.NAMES=FALSE)
 #
+no_end <- "\\begin{eframe} is closed with \\end{frame} instead of \\end{eframe},\n  or \\end{frame} is followed by a % sign"
 if(any(grepl("Missing $ inserted", out, fixed=TRUE)))
   out <- c(out, "--BB: 'Missing $ inserted' may indicate a missing  \\  in front of  _ or #.")
 if(any(grepl("\\endframe ->\\egroup", out, fixed=TRUE)))
-  out <- c(out, "--BB: potentially, \\begin{eframe} is closed with \\end{frame} instead of \\end{eframe}.")
+  out <- c(out, paste0("--BB: potentially, ",no_end,"."))
 if(any(grepl("no legal \\end found", out, fixed=TRUE)))
-  out <- c(out, "--BB: potentially, [fragile] is forgotten, or \\begin{eframe} is closed with \\end{frame} instead of \\end{eframe}.")
+  out <- c(out, paste0("--BB: potentially, [fragile] is forgotten, ",
+           "\n  or ", no_end, "."))
 if(any(grepl("Illegal parameter number in definition of \\reserved@b", out, fixed=TRUE)))
   out <- c(out, "--BB: '... par num ... \\reserved@b.' may indicate a # in URL (instead of \\#)")
 if(any(grepl("begin{document} ended by", out, fixed=TRUE)))

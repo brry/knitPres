@@ -4,7 +4,7 @@
 \alias{rnw2pdf}
 \title{compile Rnw document to pdf}
 \usage{
-rnw2pdf(file, open = TRUE, clean = TRUE, quiet = TRUE, ...)
+rnw2pdf(file, open = TRUE, clean = TRUE, ...)
 }
 \arguments{
 \item{file}{Rnw file name.}
@@ -15,8 +15,6 @@ DEFAULT: TRUE}
 
 \item{clean}{Clean up temporary files?
 DEFAULT: TRUE (unlike in  \code{tools::\link[tools]{texi2pdf}})}
-
-\item{quiet}{Silence \code{knitr::\link[knitr]{knit}} progress?}
 
 \item{\dots}{Further arguments passed to \code{knitr::\link[knitr]{knit}}}
 }

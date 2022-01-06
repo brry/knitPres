@@ -12,14 +12,12 @@
 #'              DEFAULT: TRUE
 #' @param clean Clean up temporary files?
 #'              DEFAULT: TRUE (unlike in  \code{tools::\link[tools]{texi2pdf}})
-#' @param quiet Silence \code{knitr::\link[knitr]{knit}} progress?
 #' @param \dots Further arguments passed to \code{knitr::\link[knitr]{knit}}
 #'
 rnw2pdf <- function(
 file,
 open=TRUE,
 clean=TRUE,
-quiet=TRUE,
 ...
 )
 {
@@ -37,8 +35,7 @@ on.exit(setwd(owd), add=TRUE)
 
 # Convert to tex:
 message("Running knitr::knit on ",file," starting ",as.character(Sys.time()),"...")
-texfile <- try(knitr::knit(file, envir=new.env(), quiet=quiet, ...), silent=TRUE)
-if(inherits(texfile, "try-error")) warning(texfile)
+texfile <- knit_with_stop(knitr::knit(file, envir=new.env(), ...)) # see internal function below
 
 # Convert to pdf:
 message("Running tools::texi2pdf on ",texfile," starting ",as.character(Sys.time()),"...")
@@ -59,4 +56,37 @@ message("Done after ",diff,  if(open)"\nOpening ",if(open)pdffile)
 if(open) berryFunctions::openFile(pdffile)
 # output:
 return(invisible(file))
+}
+
+
+# adapted from codeoceanR:::rt_gives_echo
+knit_with_stop <- function(expr)
+{
+sinkfile <- tempfile(fileext="_get_echo.txt")
+# Open capturing:
+con <- file(sinkfile, open="wt")
+sink(con, type="output" , append=TRUE)
+sink(con, type="message", append=TRUE)
+# evaluate the expression:
+failed <- FALSE
+value <- try(expr, silent=TRUE)
+if(inherits(value, "try-error"))
+  {
+  failed <- TRUE
+  cat(value)
+  }
+# Close capturing:
+sink(type="message")
+sink()
+close(con)
+# Output:
+if(!failed) return(value)
+captured <- readLines(sinkfile, warn=FALSE)
+sel <- tail(grep("label", captured),1)
+if(length(sel)!=1) sel <- length(captured) - 5
+cap <- captured[sel:length(captured)]
+cap <- trimws(cap)
+cap <- cap[cap!=""]
+cap <- paste(cap, collapse="\n")
+stop(cap, call.=FALSE)
 }
