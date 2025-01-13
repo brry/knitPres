@@ -1,6 +1,2 @@
-if(.Platform$OS.type=="unix") .libPaths("/home/berry/R/libBerry/")
-if(requireNamespace("installB", quietly=TRUE))
-{
-if(.Platform$OS.type=="unix") installB::loadPackages(ask=FALSE)
-installB::checkOutdated("knitPres")
-}
+if(.Platform$OS.type=="unix") try(br::loadPackages(), silent=TRUE)
+try(br:::loadAndMessage("knitPres"), silent=TRUE)

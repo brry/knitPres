@@ -10,6 +10,7 @@ out <- lapply(line, function(single_line)
   {
   if(nlines==0) return(NULL)
   out <- texlog[ single_line + 0:(nlines-1) ]
+  if(grepl("pdfTeX warning (dest): name", out[1], fixed=TRUE)) return(out[1]) # no further info needed
   outnospace <- sub("^[[:space:]]*(.*?)[[:space:]]*$", "\\1", out, perl=TRUE)
   out <- out[outnospace != ""]
   out <- out[nchar(out) > nchar_min]
@@ -98,7 +99,7 @@ out <- sapply(unique(out), function(x)
 #
 no_end <- "\\begin{eframe} is closed with \\end{frame} instead of \\end{eframe},\n  or \\end{frame} is followed by a % sign"
 if(any(grepl("Missing $ inserted", out, fixed=TRUE)))
-  out <- c(out, "--BB: 'Missing $ inserted' may indicate a missing  \\  in front of  _ or #.")
+  out <- c(out, "--BB: 'Missing $ inserted' may indicate a missing  \\  in front of  _ , $ or #.")
 if(any(grepl("\\endframe ->\\egroup", out, fixed=TRUE)))
   out <- c(out, paste0("--BB: potentially, ",no_end,"."))
 if(any(grepl("no legal \\end found", out, fixed=TRUE)))
