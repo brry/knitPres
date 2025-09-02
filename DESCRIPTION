@@ -1,11 +1,11 @@
 Package: knitPres
 Title: knit Rnw handout and presentation simultaneously
-Version: 0.3.7
-Date: 2025-01-13
+Version: 0.3.8
+Date: 2025-09-02
 Authors@R: person("Berry", "Boessenkool", email = "berry-b@gmx.de", role = c("aut", "cre"))
 Description: knit both handout and presentation version of .Rnw slides with good TeX error logging.
 Imports: knitr, berryFunctions (>= 1.16.0), png
 Suggests: tinytex
 License: GPL (>=2)
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.2

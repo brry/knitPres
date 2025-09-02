@@ -38,17 +38,17 @@ owd <- setwd(dirname(file))
 on.exit(setwd(owd), add=TRUE)
 
 # Convert to tex:
-message("Running knitr::knit on ",file," starting ",as.character(Sys.time()),"...")
+message("Running knitr::knit on ",file," starting ",format(Sys.time(),"%F %T"),"...")
 texfile <- knit_with_stop(knitr::knit(file, envir=new.env(), ...)) # see internal function below
 
 # Convert to pdf:
 if(usetinytex)
   {
-  message("Running tinytex::pdflatex on ",texfile," starting ",as.character(Sys.time()),"...")
+  message("Running tinytex::pdflatex on ",texfile," starting ",format(Sys.time(),"%F %T"),"...")
   pdffile <- try(suppressWarnings(tinytex::pdflatex(texfile, clean=FALSE)), silent=TRUE)
   } else
   {
-  message("Running tools::texi2pdf on ",texfile," starting ",as.character(Sys.time()),"...")
+  message("Running tools::texi2pdf on ",texfile," starting ",format(Sys.time(),"%F %T"),"...")
   pdffile <- try(suppressWarnings(tools::texi2pdf(texfile, clean=FALSE)), silent=TRUE)
   }
 

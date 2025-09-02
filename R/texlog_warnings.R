@@ -83,7 +83,7 @@ out <- c(
  get_from_log(texlog, ".vrb:",       nlines=nlines_warning), # for \rcode{a_b} instead of {a\_b}
  unique(c(err1,err2)),
  get_from_log(texlog, "Illegal",     nlines=nlines_error),
- get_from_log(texlog, "!",           nlines=nlines_error), # Errors at the end
+ get_from_log(texlog, "^!",          nlines=nlines_error), # Errors at the end
  NULL
 )
 if(is.null(out)) return(out)
